@@ -1,0 +1,79 @@
+{% extends 'Stud_templates/indexs.html' %}
+{% load static %}
+
+
+{% block content %}
+{% load form_tags %}
+<div class="main-panel">
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Add New Project</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="{{ form.title.id_for_label }}">Title:</label>
+                                {{ form.title|addclass:"form-control" }}
+                                {% if form.title.errors %}
+                                    <div class="text-danger">{{ form.title.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.description.id_for_label }}">Description:</label>
+                                {{ form.description|addclass:"form-control" }}
+                                {% if form.description.errors %}
+                                    <div class="text-danger">{{ form.description.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.technologies.id_for_label }}">Technologies Used:</label>
+                                {{ form.technologies|addclass:"form-control" }}
+                                {% if form.technologies.errors %}
+                                    <div class="text-danger">{{ form.technologies.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.image.id_for_label }}">Project Image:</label>
+                                {{ form.image|addclass:"form-control-file" }}
+                                {% if form.image.errors %}
+                                    <div class="text-danger">{{ form.image.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.repository_link.id_for_label }}">Repository Link:</label>
+                                {{ form.repository_link|addclass:"form-control" }}
+                                {% if form.repository_link.errors %}
+                                    <div class="text-danger">{{ form.repository_link.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="{{ form.demo_link.id_for_label }}">Demo Link:</label>
+                                {{ form.demo_link|addclass:"form-control" }}
+                                {% if form.demo_link.errors %}
+                                    <div class="text-danger">{{ form.demo_link.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Save Project</button>
+                                <a href="{% url 'student_projects' %}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

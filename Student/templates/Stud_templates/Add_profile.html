@@ -1,0 +1,90 @@
+{%  extends "Stud_templates/indexs.html" %} 
+{%  block content %}
+{% load static %}
+        <div class="main-panel">
+            <div class="content">
+                <div class="container-fluid">
+                    <h4 class="page-title">Profile</h4>
+                    {%if form.errors%}
+                    {{form.errors}}
+                    {%endif%}
+                    <form action="" method="post">
+                        {%csrf_token%}
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><b>Full Name:</b></label><br>
+							{{form.name}}
+                                          </div>
+                        <div class="mb-3">
+                            <label for="place" class="form-label">Place</label>
+							{{form.place}}
+                                      </div>
+                        <div class="mb-3">
+                            <label for="place" class="form-label">Phone</label>
+							{{form.phone}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="place" class="form-label">Age</label>
+							{{form.age}}
+                         </div>
+                        <div class="mb-3">
+                            <label for="gender" class="form-label" name="Gender">Gender: </label>
+							<select class="form-select" id="gender" name="Gender">
+								<option value="male" {% if form.instance.Gender == 'male' %} selected {% endif %}>Male</option>
+								<option value="female" {% if form.instance.Gender == 'female' %} selected {% endif %}>Female</option>
+								<option value="others" {% if form.instance.Gender == 'others' %} selected {% endif %}>Others</option>
+							</select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+							{{form.email}}
+                       </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Qualification</label>
+							{{form.qualification}}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                   
+                </div>
+            </div>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul class="nav">
+                            
+                        </ul>
+                    </nav>
+                    <div class="copyright ml-auto">
+                        2024, made with <i class="la la-heart heart text-danger"></i> by <a
+                            href="https://www.luminartechnolab.com/">Luminar technolab</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h6 class="modal-title"><i class="la la-frown-o"></i> Under Development</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
+                    <p>
+                        <b>We'll let you know when it's done</b>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

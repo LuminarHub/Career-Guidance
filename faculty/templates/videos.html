@@ -1,0 +1,60 @@
+{% extends 'fac_home.html' %}
+{% load static %}
+
+{% block title %}All Videos{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="fw-bold">Educational Videos</h1>
+            <p class="text-muted">Browse our collection of educational videos</p>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="col-md-4 text-md-end">
+            <a href="{% url 'add_video' %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i>Add New Video
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if messages %}
+    <div class="row">
+        <div class="col-12">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if videos %}
+    <div class="row">
+        {% for video in videos %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+           
+                    <iframe src="{{ video.embed_url }}" title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <div class="card-body">
+                    <p class="card-text mb-3">{{ video.text|truncatechars:100 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'video_detail' video.id %}" class="btn btn-sm btn-outline-primary">
+                            View Details
+                        </a>
+                        <small class="text-muted">Added by {{ video.user.username }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <p class="mb-0">No videos available. Check back later!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

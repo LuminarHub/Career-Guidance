@@ -1,0 +1,375 @@
+<!-- templates/career_guidance/career_results.html -->
+{% extends 'Stud_templates/indexs.html' %}
+{% load static %}
+
+{% block title %}Career Recommendations{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-color: #4361ee;
+        --secondary-color: #3f37c9;
+        --accent-color: #4cc9f0;
+        --light-color: #f8f9fa;
+        --dark-color: #212529;
+    }
+    
+
+    .card {
+        border-radius: 0.75rem;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+        transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 1.25rem;
+        border-bottom: none;
+    }
+    
+    .skill-badge {
+        padding: 0.5rem 0.75rem;
+        border-radius: 2rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .user-skill {
+        background-color: rgba(67, 97, 238, 0.15);
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .missing-skill {
+        background-color: rgba(76, 201, 240, 0.15);
+        color: #0492c2;
+        border: 1px solid #0492c2;
+    }
+    
+    .progress {
+        height: 0.75rem;
+        border-radius: 1rem;
+        background-color: #e9ecef;
+    }
+    
+    .progress-bar {
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+    
+    .match-score {
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: bold;
+        color: white;
+        font-size: 1.25rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        box-shadow: 0 4px 12px rgba(76, 201, 240, 0.3);
+    }
+    
+    .career-item {
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+    
+    .career-header {
+        padding: 1rem 1.5rem;
+        background-color: white;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .career-header.active {
+        border-bottom: none;
+    }
+    
+    .career-body {
+        padding: 1.5rem;
+        background-color: white;
+    }
+    
+    .info-card {
+        padding: 1.25rem;
+        border-radius: 0.5rem;
+        background-color: rgba(67, 97, 238, 0.05);
+        margin-bottom: 1rem;
+    }
+    
+    .profile-value {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        border-radius: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+    
+    .btn-outline-primary {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+        border-radius: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .career-icon {
+        font-size: 1.75rem;
+        color: var(--primary-color);
+        margin-right: 1rem;
+    }
+    
+    .header-illustration {
+        max-width: 250px;
+        margin-bottom: 1.5rem;
+    }
+    
+    @media (max-width: 767.98px) {
+        .match-score {
+            width: 60px;
+            height: 60px;
+            font-size: 1rem;
+        }
+    }
+</style>
+<div class="main-panel">
+    <div class="content">
+<div class="container " >
+    <div class="row mb-5">
+        <div class="col-lg-12 mx-auto text-center">
+            {% comment %} <img src="/api/placeholder/450/250" alt="Career Guidance" class="header-illustration"> {% endcomment %}
+            <h1 class="display-5 fw-bold mb-3">Your Career Path</h1>
+            <p class="lead">
+                Personalized recommendations for <span class="text-primary fw-bold">{{ user_data.name }}</span> 
+                based on your unique skills and profile
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header">
+                    <h4 class="card-title mb-0"><i class="bi bi-person-badge me-2"></i>Your Profile</h4>
+                </div>
+                <div class="card-body">
+                    <div class="info-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="rounded-circle bg-primary text-white p-2 me-2">
+                                <i class="bi bi-mortarboard-fill"></i>
+                            </div>
+                            <h5 class="mb-0">Education</h5>
+                        </div>
+                        <p class="profile-value">{{ user_data.education }}</p>
+                        
+                        <div class="d-flex align-items-center mb-3 mt-4">
+                            <div class="rounded-circle bg-primary text-white p-2 me-2">
+                                <i class="bi bi-book-fill"></i>
+                            </div>
+                            <h5 class="mb-0">Specialization</h5>
+                        </div>
+                        <p class="profile-value">{{ user_data.specialization }}</p>
+                        
+                        <div class="d-flex align-items-center mb-3 mt-4">
+                            <div class="rounded-circle bg-primary text-white p-2 me-2">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <h5 class="mb-0">Academic Score</h5>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="profile-value mb-1">{{ user_data.score }}%</p>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ user_data.score }}%" aria-valuenow="{{ user_data.score }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="mb-3"><i class="bi bi-tools me-2"></i>Your Skills</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for skill in user_data.skills %}
+                                <span class="skill-badge user-skill">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <div>
+                            Complete your profile to get even more personalized recommendations.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title mb-0"><i class="bi bi-stars me-2"></i>Recommended Career Paths</h4>
+                </div>
+                <div class="card-body p-3">
+                    {% if recommendations %}
+                        <div class="career-recommendations">
+                            {% for rec in recommendations %}
+                                <div class="career-item">
+                                    <div class="career-header {% if forloop.first %}active{% endif %}" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}">
+                                        <div class="d-flex align-items-center">
+                                            
+                                            <div>
+                                                <h5 class="mb-0 fw-bold">{{ rec.career }}</h5>
+                                                <span class="text-muted">{{ rec.similar_profiles_count }} similar profiles</span>
+                                            </div>
+                                        </div>
+                                        <div class="match-score">
+                                            {{ rec.match_score|floatformat:0 }}%
+                                        </div>
+                                    </div>
+                                    <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}">
+                                        <div class="career-body">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-4">
+                                                    <h5 class="mb-3"><i class="bi bi-clipboard-data me-2"></i>Career Details</h5>
+                                                    <div class="info-card">
+                                                        <p class="mb-3">
+                                                            <span class="fw-bold">Required Score:</span>
+                                                            <span class="profile-value">{{ rec.avg_score_required|floatformat:1 }}%</span>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-4">
+                                                    <h5 class="mb-3"><i class="bi bi-lightbulb me-2"></i>Recommended Skills</h5>
+                                                    {% if rec.missing_skills %}
+                                                        <div class="d-flex flex-wrap gap-2">
+                                                            {% for skill in rec.missing_skills %}
+                                                                <span class="skill-badge missing-skill">{{ skill }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        <div class="info-card">
+                                                            <p class="mb-0"><i class="bi bi-check-circle-fill text-success me-2"></i>You already have the key skills for this career!</p>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="alert  border d-flex p-3 mb-0" style="color:black;">
+                                                <i class="bi bi-lightbulb-fill text-warning me-3 fs-4"></i>
+                                                <div>
+                                                    <h6 class="fw-bold">Pro Tip</h6>
+                                                    <p class="mb-0">Consider taking courses in {% if rec.missing_skills %}{{ rec.missing_skills|first }}{% else %}advanced topics{% endif %} to enhance your competitiveness in this field.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info m-3 d-flex">
+                            <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+                            <div>
+                                <h6 class="fw-bold">No Exact Matches</h6>
+                                <p class="mb-0">We couldn't find specific career matches based on your current profile. Consider exploring more skills or different specializations.</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card shadow">
+                <div class="card-header">
+                    <h4 class="card-title mb-0"><i class="bi bi-signpost-2 me-2"></i>Next Steps</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <div class="card h-100 border-0 bg-light">
+                                <div class="card-body text-center p-4">
+                                    <i class="bi bi-book text-primary fs-1 mb-3"></i>
+                                    <h5>Recommended Courses</h5>
+                                    <p class="mb-3">Discover courses that will help you develop the skills you need.</p>
+                                    <a href="{% url 'course_guidance' %}" class="btn btn-primary w-100">
+                                        Find Courses <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 bg-light">
+                                <div class="card-body text-center p-4">
+                                    <i class="bi bi-search text-primary fs-1 mb-3"></i>
+                                    <h5>Search Again</h5>
+                                    <p class="mb-3">Adjust your preferences to explore other career options.</p>
+                                    <a href="{% url 'career_guidance' %}" class="btn btn-outline-primary w-100">
+                                        <i class="bi bi-arrow-left ms-1"></i> New Search
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const careerHeaders = document.querySelectorAll('.career-header');
+        
+        careerHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                careerHeaders.forEach(h => h.classList.remove('active'));
+                
+                // If the clicked header's target is shown, it remains active
+                const targetId = this.getAttribute('data-bs-target');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement && targetElement.classList.contains('show')) {
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+        // Initialize the first header as active if its content is shown
+        const firstTarget = document.querySelector(careerHeaders[0].getAttribute('data-bs-target'));
+        if (firstTarget && firstTarget.classList.contains('show')) {
+            careerHeaders[0].classList.add('active');
+        }
+    });
+</script>
+{% endblock %}
+

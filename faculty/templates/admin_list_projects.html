@@ -1,0 +1,57 @@
+{% extends 'Admin_temp/index.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-panel">
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    
+                    <div class="card-body">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        {% if projects %}
+                            <div class="row">
+                                {% for project in projects %}
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            {% if project.image %}
+                                                <img class="card-img-top" src="{{ project.image.url }}" alt="{{ project.title }}">
+                                            {% else %}
+                                                <img class="card-img-top" src="{% static 'assets/img/project-placeholder.png' %}" alt="Project placeholder">
+                                            {% endif %}
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ project.title }}</h5>
+                                                <p class="card-text">{{ project.description|truncatechars:100 }}</p>
+                                                <p><strong>Technologies:</strong> {{ project.technologies }}</p>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="{% url 'edit_project' project.id %}" class="btn btn-info btn-sm">Edit</a>
+                                                    <a href="{% url 'delete_project' project.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <small class="text-muted">Updated: {{ project.updated_at|date:"M d, Y" }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                You haven't added any projects yet. Click "Add New Project" to get started.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

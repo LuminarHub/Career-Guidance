@@ -1,0 +1,80 @@
+{% extends 'Stud_templates/indexs.html' %}
+{% load static %}
+{% block content %}
+<div class="main-panel">
+<div class="row mb-4">
+    <div class="col-lg-8 mx-auto text-center">
+        <h1 class="display-5 fw-bold mb-3">Find Your Ideal Course</h1>
+        <p class="lead">
+            Our Course Recommendation system will help you discover courses and colleges 
+            in Ernakulam that best match your interests and academic preferences.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">Course Recommendation Assistant</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="courseForm" action="{% url 'course_guidance' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label for="stream" class="form-label fw-bold">What stream interests you?</label>
+                        <select class="form-select" id="stream" name="stream" required>
+                            <option value="" selected disabled>Select a stream</option>
+                            {% for stream in available_streams %}
+                                <option value="{{ stream }}">{{ stream }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    {% comment %} <div class="mb-4" id="interestSection" >
+                        <label for="interest" class="form-label fw-bold">What specific area interests you?</label>
+                        <select class="form-select" id="interest" name="interest" required>
+                            <option value="Science" selected disabled>Science</option>
+                        </select>
+                    </div> {% endcomment %}
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg mt-3">Get Recommendations</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // When stream is selected, get corresponding interests
+        $('#stream').change(function() {
+            var stream = $(this).val();
+            if (stream) {
+                $.ajax({
+                    url: "{% url 'get_interests' %}",
+                    data: { 'stream': stream },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#interest').empty();
+                        $('#interest').append('<option value="" selected disabled>Select a specific interest</option>');
+                        $.each(data.interests, function(index, interest) {
+                            $('#interest').append('<option value="' + interest + '">' + interest + '</option>');
+                        });
+                        $('#interestSection').show();
+                    },
+                    error: function() {
+                        alert("Error loading interests.");
+                    }
+                });
+            } else {
+                $('#interestSection').hide();
+            }
+        });
+    });
+</script>
+{% endblock %}

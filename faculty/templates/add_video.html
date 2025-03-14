@@ -1,0 +1,79 @@
+{% extends 'fac_home.html' %}
+{% load static %}
+
+{% block title %}Add New Video{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'all_videos' %}">Videos</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Add New Video</li>
+                </ol>
+            </nav>
+            <h1 class="fw-bold">Add New Video</h1>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="row mb-4">
+        <div class="col-12">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="post" action="{% url 'add_video' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="video_url" class="form-label">YouTube Video URL*</label>
+                            <input type="url" class="form-control" id="video_url" name="video_url" value="{{ video_url|default:'' }}" required placeholder="https://www.youtube.com/watch?v=...">
+                            <div class="form-text">Enter a valid YouTube URL (e.g., https://www.youtube.com/watch?v=VIDEO_ID or https://youtu.be/VIDEO_ID)</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="text" class="form-label">Description</label>
+                            <textarea class="form-control" id="text" name="text" rows="5">{{ text|default:'' }}</textarea>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-1"></i>Save Video
+                            </button>
+                            <a href="{% url 'all_videos' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">How to add a YouTube video</h5>
+                    <ol class="card-text">
+                        <li>Go to the YouTube video you want to share</li>
+                        <li>Click the "Share" button below the video</li>
+                        <li>Copy the URL (it should look like https://youtu.be/... or https://www.youtube.com/watch?v=...)</li>
+                        <li>Paste the URL in the form</li>
+                        <li>Add a descriptive text to help students understand the video content</li>
+                    </ol>
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle me-2"></i> Only YouTube videos are supported at this time
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

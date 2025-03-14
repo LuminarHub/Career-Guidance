@@ -1,0 +1,59 @@
+{% extends 'Stud_templates/indexs.html' %}
+{% load static %}
+
+{% block title %}All Videos{% endblock %}
+
+{% block content %}
+<div class="main-panel">
+    <div class="content">
+<div class="container py-5" style="padding:20px;">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="fw-bold">Educational Videos</h1>
+            <p class="text-muted">Browse our collection of educational videos</p>
+        </div>
+       
+    </div>
+
+    {% if messages %}
+    <div class="row">
+        <div class="col-12">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if videos %}
+    <div class="row">
+        {% for video in videos %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="ratio ratio-16x9">
+                    <iframe src="{{ video.embed_url }}" title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;"></iframe>
+                </div>
+                <div class="card-body">
+                    <p class="card-text mb-3">{{ video.text|truncatechars:100 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'video_detail' video.id %}" class="btn btn-sm btn-outline-primary">
+                            View Details
+                        </a>
+                        <small class="text-muted">Added by {{ video.user.username }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <p class="mb-0">No videos available. Check back later!</p>
+    </div>
+    {% endif %}
+</div>
+</div>
+</div>
+{% endblock %}

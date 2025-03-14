@@ -1,0 +1,43 @@
+{% extends 'Stud_templates/indexs.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-panel">
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Delete Project</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <h5>Are you sure you want to delete "{{ project.title }}"?</h5>
+                            <p>This action cannot be undone.</p>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            {% if project.image %}
+                                <img class="card-img-top" src="{{ project.image.url }}" alt="{{ project.title }}" style="max-height: 300px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ project.title }}</h5>
+                                <p class="card-text">{{ project.description }}</p>
+                                <p><strong>Technologies:</strong> {{ project.technologies }}</p>
+                            </div>
+                        </div>
+                        
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete Project</button>
+                            <a href="{% url 'student_projects' %}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
