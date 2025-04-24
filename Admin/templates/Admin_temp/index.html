@@ -8,8 +8,6 @@
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
 		name='viewport' />
 	<link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
-	<link rel="stylesheet"
-		href="{% static 'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i' %}">
 	<link rel="stylesheet" href="{% static 'assets/css/ready.css' %}">
 	<link rel="stylesheet" href="{% static 'assets/css/demo.css' %}">
 </head>
@@ -149,6 +147,171 @@
 				<div class="container-fluid">
 					<h4 class="page-title">Dashboard</h4>
 					
+					<!-- Stats Cards -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="card card-stats">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-5">
+											<div class="icon-big text-center icon-primary">
+												<i class="la la-university"></i>
+											</div>
+										</div>
+										<div class="col-7 d-flex align-items-center">
+											<div class="numbers">
+												<p class="card-category">Colleges</p>
+												<h4 class="card-title">{{ colleges_count }}</h4>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="card card-stats">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-5">
+											<div class="icon-big text-center icon-warning">
+												<i class="la la-users"></i>
+											</div>
+										</div>
+										<div class="col-7 d-flex align-items-center">
+											<div class="numbers">
+												<p class="card-category">Students</p>
+												<h4 class="card-title">{{ students_count }}</h4>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="card card-stats">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-5">
+											<div class="icon-big text-center icon-success">
+												<i class="la la-question-circle"></i>
+											</div>
+										</div>
+										<div class="col-7 d-flex align-items-center">
+											<div class="numbers">
+												<p class="card-category">Questions</p>
+												<h4 class="card-title">{{ questions_count }}</h4>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="card card-stats">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-5">
+											<div class="icon-big text-center icon-danger">
+												<i class="la la-folder-open"></i>
+											</div>
+										</div>
+										<div class="col-7 d-flex align-items-center">
+											<div class="numbers">
+												<p class="card-category">Projects</p>
+												<h4 class="card-title">{{ projects_count }}</h4>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Recent Activities -->
+					<div class="row">
+						<div class="col-md-8">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Latest Students</h4>
+									<p class="card-category">Most recently added students</p>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-hover">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Qualification</th>
+													<th>Email</th>
+													<th>Phone</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for student in recent_students %}
+												<tr>
+													<td>{{ student.name }}</td>
+													<td>{{ student.qualification }}</td>
+													<td>{{ student.email }}</td>
+													<td>{{ student.phone }}</td>
+												</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Latest Projects</h4>
+									<p class="card-category">Recently added projects</p>
+								</div>
+								<div class="card-body">
+									<div class="list-group">
+										{% for project in recent_projects %}
+										<div class="list-group-item">
+											<div class="row">
+												<div class="col-md-12">
+													<h5 class="mb-1">{{ project.title }}</h5>
+													<small>by {{ project.student.name }}</small>
+													<p class="mb-1 text-muted">{{ project.technologies }}</p>
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Content Widgets -->
+					<div class="row">
+						
+						<div class="col">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Latest Videos</h4>
+									<p class="card-category">Recently added educational videos</p>
+								</div>
+								<div class="card-body">
+									<div class="list-group">
+										{% for video in recent_videos %}
+										<div class="list-group-item">
+											<div class="row">
+												<div class="col-md-12">
+													<p class="mb-1">{{ video.text }}</p>
+													<small><a href="{{ video.video_url }}" target="_blank">Watch Video</a></small>
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div style="margin-top: 380px;">

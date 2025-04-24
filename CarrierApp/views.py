@@ -47,7 +47,7 @@ class LoginView(FormView):
                     return redirect('Stud_home')
                 elif request.user.is_faculty:
                     request.session['user_type'] = 'faculty'
-                    return redirect('fac_home')
+                    return redirect('videos')
                 else:
                     request.session['user_type'] = 'college'
                     return redirect('college_home')
